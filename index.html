@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Zara ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #2c0211 0%, #000000 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            /* PC Cursor */
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' style='font-size:24px'><text y='20'>✨</text></svg>"), auto;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 15vw; /* মোবাইলের জন্য রেসপনসিভ সাইজ */
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            margin: 0;
+            text-shadow: 0 0 10px #ff4d94, 0 0 20px #ff4d94, 0 0 40px #ff4d94;
+            animation: pulse 2s ease-in-out infinite;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 100px; letter-spacing: 20px; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .message-box {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.1rem;
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            /* মোবাইলে সবসময় দেখাবে না, টাচ বা পিসিতে হভার করলে আসবে */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* PC Hover & Mobile Active Class */
+        .container:hover .message-box, .container.active .message-box {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 1;
+            will-change: transform;
+            animation: moveUp 4s linear forwards;
+        }
+
+        @keyframes moveUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-110vh) scale(0); opacity: 0; }
+        }
+
+        .footer-text {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body onclick="toggleMessage()">
+
+    <div class="container" id="mainContainer">
+        <h1 id="name">ZARA</h1>
+        <div class="message-box">
+            <span id="text-change">স্ক্রিনে একটু টাচ করো তো... ✨</span>
+        </div>
+    </div>
+
+    <div class="footer-text">Made with ❤️ for Zara</div>
+
+    <script>
+        // মোবাইলের জন্য টাচ ফাংশন
+        function toggleMessage() {
+            const container = document.getElementById('mainContainer');
+            container.classList.add('active');
+        }
+
+        // পার্টিকল তৈরি করার ফাংশন
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const items = ['❤️', '✨', '🌸', '💖'];
+            particle.innerHTML = items[Math.floor(Math.random() * items.length)];
+            
+            // যদি ক্লিক বা টাচ করা হয় তবে সেই পজিশন থেকে বের হবে, নাহলে র‍্যান্ডম
+            particle.style.left = (x || Math.random() * window.innerWidth) + 'px';
+            particle.style.top = (y || window.innerHeight) + 'px';
+            
+            particle.style.fontSize = Math.random() * 20 + 15 + 'px';
+            
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 4000);
+        }
+
+        // অটো ব্যাকগ্রাউন্ড পার্টিকল
+        setInterval(() => createParticle(), 300);
+
+        // টাচ বা ক্লিকের জায়গায় পার্টিকল রেইন
+        window.addEventListener('mousedown', (e) => {
+            for(let j=0; j<8; j++) {
+                setTimeout(() => createParticle(e.clientX, e.clientY), j * 50);
+            }
+        });
+
+        window.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            for(let j=0; j<8; j++) {
+                setTimeout(() => createParticle(touch.clientX, touch.clientY), j * 50);
+            }
+        });
+
+        // মেসেজ অটো চেঞ্জ
+        const messages = [
+            "তুমি তো একদম ছোট একটা পিচ্চি! ❤️",
+            "তুমি একটা কিউটের ডিব্বা.. 😊",
+            "সবসময় এভাবেই থেকো, জারা। ✨",
+            "তুমি হাসলে আমার সব কষ্ট দূর হয়ে যায়!",
+            
+        ];
+        
+        let i = 0;
+        const textElement = document.getElementById('text-change');
+        
+        setInterval(() => {
+            textElement.style.opacity = 0;
+            setTimeout(() => {
+                i = (i + 1) % messages.length;
+                textElement.innerHTML = messages[i];
+                textElement.style.opacity = 1;
+            }, 500);
+        }, 4000);
+    </script>
+
+</body>
+</html>
